@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de Evento</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: #343a40;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mt-3" style="margin-left: 2rem;">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Ir a Home</a>
+    </div>  
+    <div class="container">
+        <h2 class="mt-5">Detalles de Evento</h2>
+        <div class="row">
+            {% for evento in eventos %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ evento.nombre }}</h3>
+                            <p class="card-text"><strong>Descripción:</strong> {{ evento.descripcion }}</p>
+                            <p class="card-text"><strong>Fecha de inicio:</strong> {{ evento.fecha_inicio }}</p>
+                            <p class="card-text"><strong>Fecha de fin:</strong> {{ evento.fecha_fin }}</p>
+                            <p class="card-text"><strong>Ubicación:</strong> {{ evento.ubicacion }}</p>
+                            <p class="card-text"><strong>Capacidad máxima:</strong> {{ evento.capacidad_maxima }}</p>
+                            <p class="card-text"><strong>Inscritos:</strong> {{ evento.registroevento_set.count }}</p>
+                            <ul>
+                                {% for registro in evento.registroevento_set.all %}
+                                    <li>{{ registro.usuario.nombre }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:2 and not forloop.last %}
+                    </div><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Bootstrap JS (opcional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
